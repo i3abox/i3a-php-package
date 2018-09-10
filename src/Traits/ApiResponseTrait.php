@@ -35,7 +35,7 @@ trait ApiResponseTrait
     {
         $data = [
             'errcode' => app(ApiCode::class)->getCode($code, $module),
-            'errmsg' => app(ApiCode::class)->getMsg($code, $module)
+            'errmsg' => app(ApiCode::class)->getMsg($code, $module, $module)
         ];
 
         // debug信息
