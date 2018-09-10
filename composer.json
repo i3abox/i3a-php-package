@@ -1,0 +1,22 @@
+{
+    "name": "overnic/i3a-php-package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overnick",
+            "email": "overnic@httpd.cc"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/pagination": "^5.5",
+        "illuminate/http": "^5.5",
+        "overnic/simple-demo": "^0.0.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "I3A\\Base\\": "src/"
+        }
+    }
+}
