@@ -45,11 +45,16 @@ abstract class ApiCode
      *
      * @param $code
      * @param string $module
+     * @param mixed $default
      * @return mixed
      */
-    public function getMsg($code, $module = null)
+    public function getMsg($code, $module = null, $default = null)
     {
-        $library = array_get($this->library, $module ?? $this->default,'0');
+        if(!array_key_exists($module, $this->library)){
+            return $default;
+        }
+
+        $library = $this->library[$module ?? $this->default];
 
         return array_get($this->modules, $library.'.'.$code);
     }
