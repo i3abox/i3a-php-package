@@ -8,7 +8,7 @@
 
 namespace I3A\Base\Traits;
 
-use I3A\Base\Abstracts\ApiCode;
+use I3A\Base\ApiCode\ApiCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
