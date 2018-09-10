@@ -58,7 +58,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     {
         $this->app->make($this->key)->verify(function(App $app){
 
-            if(!$app->hasSuccess($this->getChecked())){
+            if(!$app->hasSuccess($this->getChecked($app))){
                 throw new BootstrapException();
             }
 
@@ -76,8 +76,9 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     /**
      * get api result
      *
+     * @param App $app
      * @return mixed
      */
-    abstract protected function getChecked();
+    abstract protected function getChecked(App $app);
 
 }
