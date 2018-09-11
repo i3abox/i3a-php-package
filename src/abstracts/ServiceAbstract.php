@@ -59,7 +59,17 @@ abstract class ServiceAbstract
      */
     public function code()
     {
-        return app(ApiCode::class)->getCode($this->errcode, $this->errmodule);
+        return $this->errcode;
+    }
+
+    /**
+     * 获取错误模块
+     *
+     * @return null
+     */
+    public function module()
+    {
+        return $this->errmodule;
     }
 
     /**
