@@ -50,13 +50,7 @@ abstract class ApiCode
      */
     public function getMsg($code, $module = null, $default = null)
     {
-        if(!array_key_exists($module, $this->library)){
-            return $default;
-        }
-
-        $library = $this->library[$module ?? $this->default];
-
-        return array_get($this->modules, $library.'.'.$code);
+        return array_get($this->modules, array_get($this->library, $module ?? $this->default).'.'.$code, $default);
     }
 
     /**
