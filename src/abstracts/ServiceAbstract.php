@@ -7,6 +7,8 @@
  */
 namespace I3A\Base\Abstracts;
 
+use I3A\Base\ApiCode\ApiCode;
+
 /**
  * Class ServiceAbstract
  * @package App\Http\Abstracts
@@ -21,7 +23,12 @@ abstract class ServiceAbstract
     /**
      * @var
      */
-    protected $errmsg = 'ok';
+    protected $errmsg = null;
+
+    /**
+     * @var null
+     */
+    protected $errmodule = null;
 
     /**
      * 获取错误信息
@@ -30,7 +37,7 @@ abstract class ServiceAbstract
      */
     public function msg()
     {
-        return $this->errmsg;
+        return $this->errmsg ?? app(ApiCode::class)->getMsg($this->errcode, $this->errmodule);
     }
 
     /**
@@ -52,18 +59,20 @@ abstract class ServiceAbstract
      */
     public function code()
     {
-        return $this->errcode;
+        return app(ApiCode::class)->getCode($this->errcode, $this->errmodule);
     }
 
     /**
      * 设置错误码
      *
-     * @param string $code
+     * @param integer $code
+     * @param mixed $module 模块
      * @return $this\
      */
-    protected function setCode($code = 'ok')
+    protected function setCode($code = 0, $module = null)
     {
         $this->errcode = $code;
+        $this->errmodule = $module;
         return $this;
     }
 
