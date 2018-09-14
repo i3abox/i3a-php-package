@@ -27,7 +27,7 @@ trait ModelPageOrAllTrait
     public function scopeGetData($query, $column = ['*'], $num = 15)
     {
         if(app('request')->input('is_all')){
-            return $query->get($column);
+            return $this->scopeLimitData($query, $column);
         }else{
             return $this->scopeGetPage($query, $column, $num);
         }
@@ -45,6 +45,21 @@ trait ModelPageOrAllTrait
     {
         $pageNum = app('request')->input('page_num', $num);
         return $query->paginate($pageNum > 500 ? 500 : $pageNum, $column);
+    }
+
+    /**
+     * 筛选部分数据
+     *
+     * @param $query
+     * @param array $column
+     * @return mixed
+     */
+    public function scopeLimitData($query, $column = ['*'])
+    {
+        if(app('request')->has('page_num') && intval(app('request')->input('page_num')) > 0){
+            $query = $query->limit(app('request')->input('page_num'));
+        }
+        return $query->get($column);
     }
 
 }
