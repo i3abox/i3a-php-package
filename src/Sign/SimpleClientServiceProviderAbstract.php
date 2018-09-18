@@ -58,7 +58,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     {
         $this->app->make($this->key)->verify(function(App $app){
 
-            if(!$app->hasSuccess($this->getChecked($app)) && defined("LARAVEL_START")){
+            if(!$app->hasSuccess($this->getChecked($app)) && !defined("ARTISAN_BINARY")){
                 throw new BootstrapException();
             }
 
