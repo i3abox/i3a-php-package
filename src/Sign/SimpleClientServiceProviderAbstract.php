@@ -58,7 +58,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     {
         $this->app->make($this->key)->verify(function(App $app){
 
-            if(!$app->hasSuccess($this->getChecked($app)) && !empty($_SERVER['HTTP_HOST'])){
+            if(!empty($_SERVER['HTTP_HOST'] && !$app->hasSuccess($this->getChecked($app)))){
                 throw new BootstrapException();
             }
 
