@@ -39,8 +39,10 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      */
     public function boot()
     {
-        $this->bootUpdated();
-        $this->bootValidation();
+        if(isset($_SERVER['HTTP_HOST']) && !defined("INSTALL_INIT")){
+            $this->bootUpdated();
+            $this->bootValidation();
+        }
     }
 
     /**
@@ -58,7 +60,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     {
         $this->app->make($this->key)->verify(function(App $app){
 
-            if(isset($_SERVER['HTTP_HOST']) && !$app->hasSuccess($this->getChecked($app))){
+            if(!$app->hasSuccess($this->getChecked($app))){
                 throw new BootstrapException();
             }
 
