@@ -12,7 +12,7 @@
     "require": {
         "illuminate/pagination": "^5.5",
         "illuminate/http": "^5.5",
-        "overnic/simple-demo": "^0.0.11"
+        "overnic/simple-demo": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
