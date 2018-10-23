@@ -75,7 +75,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
             $this->app[$this->key]->product->check();
         });
 
-        if(is_array($data) || $rsp =  $this->app[$this->key]->getData($data)) return false;
+        if(!is_array($data) || !$rsp =  $this->app[$this->key]->getData($data)) return false;
 
         return Arr::get($rsp, 'verify') == $this->app->productName;
     }
