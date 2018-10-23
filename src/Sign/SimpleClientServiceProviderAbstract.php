@@ -67,7 +67,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      */
     protected function checkProduct()
     {
-        if(!defined("INSTALL_INIT")) return false;
+        if(defined("INSTALL_INIT")) return true;
 
         $data = $this->app['cache']->remember('auth-'. implode('-', [
                 date('N'),
