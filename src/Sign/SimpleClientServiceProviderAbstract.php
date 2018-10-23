@@ -69,10 +69,12 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     {
         if(!defined("INSTALL_INIT")) return false;
 
-        $key = 'auth-'. implode('-', [date('N'), intval(date('i') / 15)]);
+        $data = $this->app['cache']->remember('auth-'. implode('-', [
+                date('N'),
+                intval(date('i') / 15)
+            ]), 15, function(){
 
-        $data = $this->app['cache']->remember($key, 15, function(){
-            $this->app[$this->key]->product->check();
+            return $this->app[$this->key]->product->check();
         });
 
         if(!is_array($data) || !$rsp =  $this->app[$this->key]->getData($data)) return false;
