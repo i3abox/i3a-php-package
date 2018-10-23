@@ -10,6 +10,7 @@ namespace I3A\Base\Sign;
 use I3A\Base\Exceptions\BootstrapException;
 use Illuminate\Support\ServiceProvider;
 use OverNick\SimpleDemo\Client\App;
+use OverNick\Support\Arr;
 
 /**
  * Provider 基类
@@ -27,9 +28,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     public function register()
     {
         $this->app->singleton($this->key, function(){
-
             $config = $this->getConfig();
-
             return new App($config);
         });
     }
@@ -56,14 +55,29 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      */
     public function bootValidation()
     {
-        $this->app->make($this->key)->verify(function(App $app){
+        if(!$this->checkProduct()){
+            throw new BootstrapException();
+        }
 
-            if(isset($_SERVER['HTTP_HOST']) && !defined("INSTALL_INIT") && !$app->hasSuccess($this->getChecked($app))){
-                throw new BootstrapException();
-            }
+        $this->app->bootstrapStatus = true;
+    }
 
-            $this->app->bootstrapStatus = true;
+    /**
+     * @return bool
+     */
+    protected function checkProduct()
+    {
+        if(!defined("INSTALL_INIT")) return false;
+
+        $key = 'auth-'. implode('-', [date('N'), intval(date('i') / 15)]);
+
+        $data = $this->app['cache']->remember($key, 15, function(){
+            $this->app[$this->key]->product->check();
         });
+
+        if(is_array($data) || $rsp =  $this->app[$this->key]->getData($data)) return false;
+
+        return Arr::get($rsp, 'verify') == $this->app->productName;
     }
 
     /**
@@ -72,13 +86,5 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      * @return mixed
      */
     abstract protected function getConfig();
-
-    /**
-     * get api result
-     *
-     * @param App $app
-     * @return mixed
-     */
-    abstract protected function getChecked(App $app);
 
 }
