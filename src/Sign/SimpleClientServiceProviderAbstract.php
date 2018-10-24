@@ -72,10 +72,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
             (!isset($_SERVER['HTTP_HOST']) && !isset($_SERVER['SERVER_NAME']))
         ) return true;
 
-        $data = $this->app['cache']->remember('auth-'. implode('-', [
-                date('N'),
-                intval(date('i') / 15)
-            ]), 15, function(){
+        $data = $this->app['cache']->remember('auth-'. $this->app['config']->get('settings.auth.access_id'), 15, function(){
 
             return $this->app[$this->key]->product->check();
         });
