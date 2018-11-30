@@ -73,7 +73,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
         ) return true;
 
         $cacheKey = $this->app['config']->get('settings.auth.access_id') .
-            $this->app->make($this->key)->getDomain();
+            md5($this->app->make($this->key)->getDomain());
 
         $data = $this->app['cache']->remember($cacheKey, 10, function(){
             return $this->app[$this->key]->product->check();

@@ -30,7 +30,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      *
      * @var
      */
-    protected $instance;
+    protected static $instance;
 
     /**
      * @return mixed
@@ -38,15 +38,15 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function getModel()
     {
-        if(is_null($this->instance) && is_null($this->model)){
+        if(is_null(self::$instance) && is_null($this->model)){
             throw new \Exception('Repository init fail!');
         }
 
-        if(is_null($this->instance)){
-            $this->instance = new $this->model();
+        if(is_null(self::$instance)){
+            self::$instance = new $this->model();
         }
 
-        return $this->instance;
+        return self::$instance;
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function setModel($model)
     {
-        $this->instance = $model;
+        self::$instance = $model;
         return $this;
     }
 
@@ -66,6 +66,6 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this->instance, $method], $args);
+        return call_user_func_array([self::$instance, $method], $args);
     }
 }
