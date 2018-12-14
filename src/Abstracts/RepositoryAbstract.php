@@ -8,6 +8,7 @@
 
 namespace I3A\Base\Abstracts;
 
+use Illuminate\Database\Eloquent\Model;
 use I3A\Base\Interfaces\RepositoryInterface;
 
 /**
@@ -43,7 +44,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
         }
 
         if(is_null(self::$instance)){
-            self::$instance = new $this->model();
+            self::$instance = $this->model::query();
         }
 
         return self::$instance;
@@ -53,7 +54,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      * @param $model
      * @return $this
      */
-    public function setModel($model)
+    public function setModel(Model $model)
     {
         self::$instance = $model;
         return $this;
