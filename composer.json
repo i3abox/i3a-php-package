@@ -10,6 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": ">=7.0.0",
         "illuminate/pagination": "^5.5",
         "illuminate/http": "^5.5",
         "overnic/simple-demo": "^0.1.0"

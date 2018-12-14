@@ -7,6 +7,8 @@
  */
 namespace I3A\Base\Interfaces;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Model 仓库实现类
  *
@@ -26,5 +28,5 @@ interface RepositoryInterface
      * @param $instance
      * @return $this
      */
-    public function setModel($instance);
+    public function setModel(Model $instance);
 }
