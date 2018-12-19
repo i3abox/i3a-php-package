@@ -37,6 +37,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
      * @return mixed
      * @throws \Exception
      */
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function getModel()
     {
         if(is_null($this->instance) && is_null($this->model)){
@@ -51,8 +56,8 @@ abstract class RepositoryAbstract implements RepositoryInterface
     }
 
     /**
-     * @param $model
-     * @return $this
+     * @param Model $model
+     * @return $this|RepositoryInterface
      */
     public function setModel(Model $model)
     {
@@ -64,9 +69,10 @@ abstract class RepositoryAbstract implements RepositoryInterface
      * @param $method
      * @param $args
      * @return mixed
+     * @throws \Exception
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this->instance, $method], $args);
+        return call_user_func_array([$this->getModel(), $method], $args);
     }
 }
