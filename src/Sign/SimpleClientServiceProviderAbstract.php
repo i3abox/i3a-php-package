@@ -34,24 +34,19 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     }
 
     /**
-     * 启动自加载
+     * 启动验证
+     *
+     * @throws BootstrapException
      */
     public function boot()
     {
-        $this->bootUpdated();
         $this->bootValidation();
     }
 
     /**
-     * 接收推送
-     */
-    protected function bootUpdated()
-    {
-        $this->app->make($this->key)->backend->run();
-    }
-
-    /**
      * 启动验证
+     *
+     * @throws BootstrapException
      */
     public function bootValidation()
     {
@@ -79,7 +74,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
             return $this->app[$this->key]->product->check();
         });
 
-        if(!is_array($data) || !$rsp =  $this->app[$this->key]->getData($data)) return false;
+        if(!is_array($data) || !$rsp =  $this->app->make($this->key)->getData($data)) return false;
 
         return Arr::get($rsp, 'verify') == $this->app->productName;
     }
