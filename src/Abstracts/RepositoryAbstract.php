@@ -39,7 +39,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
      */
 
     /**
-     * @return Model::query()
+     * @return \Illuminate\Database\Eloquent\Builder
      * @throws \Exception
      */
     public function getModel()
