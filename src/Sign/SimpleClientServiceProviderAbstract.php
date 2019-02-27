@@ -7,9 +7,9 @@
  */
 namespace I3A\Base\Sign;
 
+use I3A\Api\Client\App;
 use I3A\Base\Exceptions\BootstrapException;
 use Illuminate\Support\ServiceProvider;
-use OverNick\SimpleDemo\Client\App;
 use OverNick\Support\Arr;
 
 /**
