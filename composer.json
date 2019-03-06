@@ -1,5 +1,5 @@
 {
-    "name": "overnic/i3a-php-package",
+    "name": "i3a/library-base",
     "type": "library",
     "license": "MIT",
     "authors": [
