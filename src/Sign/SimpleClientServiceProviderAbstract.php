@@ -28,8 +28,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     public function register()
     {
         $this->app->singleton($this->key, function(){
-            $config = $this->getConfig();
-            return new App($config);
+            return new App($this->getConfig());
         });
     }
 
@@ -67,7 +66,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
             (!isset($_SERVER['HTTP_HOST']) && !isset($_SERVER['SERVER_NAME']))
         ) return true;
 
-        $cacheKey = $this->app['config']->get('settings.auth.access_id') .
+        $cacheKey = Arr::get($this->getConfig(), 'access_id') .
             md5($this->app->make($this->key)->getDomain());
 
         $data = $this->app['cache']->remember($cacheKey, 10, function(){
