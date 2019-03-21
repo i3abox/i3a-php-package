@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: overnic
- * Date: 2018/9/10
- * Time: 14:58
- */
 namespace I3A\Base\Sign;
 
 use I3A\Api\Client\App;
@@ -43,23 +37,10 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
     }
 
     /**
-     * 启动验证
-     *
+     * @return bool
      * @throws BootstrapException
      */
-    public function bootValidation()
-    {
-        if(!$this->checkProduct()){
-            throw new BootstrapException();
-        }
-
-        $this->app->bootstrapStatus = true;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function checkProduct()
+    protected function bootValidation()
     {
         if(
             defined("INSTALL_INIT") ||
@@ -73,9 +54,11 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
             return $this->app[$this->key]->product->check();
         });
 
-        if(!is_array($data) || !$rsp =  $this->app->make($this->key)->getData($data)) return false;
+        if(!is_array($data) || !$rsp =  $this->app->make($this->key)->getData($data)) {
+            throw new BootstrapException();
+        }
 
-        return Arr::get($rsp, 'verify') == $this->app->productName;
+        return $this->app->bootstrapStatus = true;
     }
 
     /**
