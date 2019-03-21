@@ -42,7 +42,7 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      */
     protected function bootValidation()
     {
-        if(!defined("INSTALL_INIT") || !(isset($_SERVER['HTTP_HOST']) && isset($_SERVER['SERVER_NAME']))){
+        if(!defined("INSTALL_INIT") && (isset($_SERVER['HTTP_HOST']) && isset($_SERVER['SERVER_NAME']))){
             $cacheKey = Arr::get($this->getConfig(), 'access_id') .
                 md5($this->app->make($this->key)->getDomain());
 
