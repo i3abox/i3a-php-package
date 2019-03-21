@@ -42,20 +42,17 @@ abstract class SimpleClientServiceProviderAbstract extends ServiceProvider
      */
     protected function bootValidation()
     {
-        if(
-            defined("INSTALL_INIT") ||
-            (!isset($_SERVER['HTTP_HOST']) && !isset($_SERVER['SERVER_NAME']))
-        ) return true;
+        if(!defined("INSTALL_INIT") || !(isset($_SERVER['HTTP_HOST']) && isset($_SERVER['SERVER_NAME']))){
+            $cacheKey = Arr::get($this->getConfig(), 'access_id') .
+                md5($this->app->make($this->key)->getDomain());
 
-        $cacheKey = Arr::get($this->getConfig(), 'access_id') .
-            md5($this->app->make($this->key)->getDomain());
+            $data = $this->app['cache']->remember($cacheKey, 10, function(){
+                return $this->app[$this->key]->product->check();
+            });
 
-        $data = $this->app['cache']->remember($cacheKey, 10, function(){
-            return $this->app[$this->key]->product->check();
-        });
-
-        if(!is_array($data) || !$rsp =  $this->app->make($this->key)->getData($data)) {
-            throw new BootstrapException();
+            if(!is_array($data) || !$rsp =  $this->app->make($this->key)->getData($data)) {
+                throw new BootstrapException();
+            }
         }
 
         return $this->app->bootstrapStatus = true;
